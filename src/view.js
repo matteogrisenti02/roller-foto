@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function() {
   console.log("DOM Content Loaded. Inizializzo lo slider...");
   // console.log("DOM Content Loaded. Inizializzo lo slider...", document.body.innerHTML);
   
-  const roller = document.querySelector(".image-slider");
   const track = document.querySelector(".image-track");
   console.log(track)
 
@@ -73,19 +72,26 @@ function updateSlider(images, totalImages) {
   console.log("Current index:", currentIndex, "su", totalImages, "immagini");
 
   const isMobile = window.innerWidth < 768; // Se true, siamo su mobile
+  console.log("isMobile:", isMobile);
 
   // Rimuove tutte le classi da ogni immagine
   images.forEach((img, i) => {
-      img.classList.remove("active", "prev", "next", "hidden");
+      img.classList.remove("active", "prev", "next", "hidden", "mobile-active");
       console.log(`Image ${i}: classi rimosse`);
   });
+  
+  if(isMobile) {  
+    images[currentIndex].classList.add("mobile-active");
+    images[currentIndex].style.width = "50%"; // Occupa metà spazio
+    images[currentIndex].style.margin = "0 auto"; // Centrata
+    return
+  }
 
-  if (totalImages === 1 || isMobile) {
+  if (totalImages === 1 ) {
       // Se c'è solo 1 immagine, la centriamo
-      images[0].classList.add("active");
-      if (isMobile) { images[0].classList.add("mobile"); }
-      images[0].style.width = "50%"; // Occupa metà spazio
-      images[0].style.margin = "0 auto"; // Centrata
+      images[currentIndex].classList.add("active");
+      images[currentIndex].style.width = "50%"; // Occupa metà spazio
+      images[currentIndex].style.margin = "0 auto"; // Centrata
       return;
   }
 
