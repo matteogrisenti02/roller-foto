@@ -82,7 +82,7 @@ function updateSlider(images, totalImages) {
   
   if(isMobile) {  
     images[currentIndex].classList.add("mobile-active");
-    images[currentIndex].style.width = "50%"; // Occupa metà spazio
+    images[currentIndex].style.width = "80%"; // Occupa metà spazio
     images[currentIndex].style.margin = "0 auto"; // Centrata
     return
   }
