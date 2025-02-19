@@ -1,8 +1,11 @@
 <style>
+.image-slider-wrapper {
+  position: relative;
+}
 /* Contenitore principale: qui puoi impostare max-width o width per far sì che il carosello abbia le dimensioni desiderate */
 .image-slider {
   position: relative;
-  max-width: 800px; /* Ad esempio, un contenitore più largo per ospitare 3 immagini */
+  max-width: 100%; /* Ad esempio, un contenitore più largo per ospitare 3 immagini */
   margin: 0 auto;
   /* Assicurati che l'overflow sia visibile, se necessario */
   overflow: hidden;
@@ -55,28 +58,49 @@
   display: none;
 }
 
-/* Posizione delle frecce */
+/* Frecce di navigazione */
 .prev-arrow,
 .next-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   background-color: rgba(248, 148, 29, 1);
-  border: none;
-  padding: 10px;
+  border: 10;
+  padding: 15px;
   color: #fff;
   cursor: pointer;
+  font-size: 24px;
   z-index: 10;
-  font-size: 18px;
 }
 
+/* Posizioniamo le frecce agli estremi del carosello */
 .prev-arrow { left: 10px; }
 .next-arrow { right: 10px; }
+
+/* Aggiungiamo un'ombra per una migliore visibilità */
+.prev-arrow:hover,
+.next-arrow:hover {
+  background-color: rgba(248, 148, 29, 0.8);
+}
 
 .image-track img.two-images {
     display: inline-block;
     vertical-align: middle;
 }
+
+@media (max-width: 768px) {
+  .image-track img {
+    display: none; /* Nasconde tutte le immagini di default */
+  }
+
+  .image-track img.mobile-active {
+    display: block; /* Mostra solo l'immagine attuale */
+    width: 100%;
+    /*max-width: 400px;  Adatta la dimensione */
+    margin: 0 auto;
+  }
+}
+
 
 </style>
 
@@ -84,25 +108,27 @@
 // Separiamo le immagini in un array
 $images = array_filter(explode(',', $attributes['images'])); // Rimuoviamo eventuali valori vuoti
 
-$output = '<div class="image-slider-wrapper" data-images="' . esc_attr(json_encode($images)) . '>';
+$output = '<div class="image-slider-wrapper" data-images="' . esc_attr(json_encode($images)) . '">';
 $output .= '<div class="image-slider">';
 $output .= '<div class="image-track">';
 
-// Iteriamo su ciascuna immagine per creare i tag <img>
+// Itera sulle immagini...
 foreach($images as $image) {
     $output .= '<img src="' . esc_url(trim($image)) . '" alt="Slider Image">';
 }
 
 $output .= '</div>';
 
-// Aggiungiamo le frecce solo se ci sono più di un'immagine
+// Inserisci le frecce all'interno di .image-slider
 if (count($images) > 2) {
     $output .= '<button class="prev-arrow">&lt;</button>'; // Freccia sinistra
     $output .= '<button class="next-arrow">&gt;</button>'; // Freccia destra
 }
 
-$output .= '</div></div>';
+$output .= '</div>'; // chiude .image-slider
+$output .= '</div>'; // chiude .image-slider-wrapper
 
 echo $output;
 ?>
+
 
